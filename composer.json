@@ -1,0 +1,56 @@
+{
+    "name": "rashediconsulting/shopifyfreesamples",
+    "version": "1.0.0",
+    "description": "A package to manage free samples added to a Shopify cart",
+    "keywords": [
+        "rashediconsulting",
+        "shopifyfreesamples"
+    ],
+    "homepage": "https://github.com/rashediconsulting/shopifyfreesamples",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aram Àvila",
+            "email": "aram@rashediconsulting.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "filament/tables": "^3.1",
+        "illuminate/support": "^10.10",
+        "signifly/laravel-shopify": "^1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "RashediConsulting\\ShopifyFreeSamples\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RashediConsulting\\ShopifyFreeSamples\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RashediConsulting\\ShopifyFreeSamples\\ShopifyFreeSamplesServiceProvider"
+            ],
+            "aliases": {
+                "ShopifyFreeSamples": "RashediConsulting\\ShopifyFreeSamples\\ShopifyFreeSamplesFacade"
+            }
+        }
+    }
+}
