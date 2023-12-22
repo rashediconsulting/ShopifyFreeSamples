@@ -4,6 +4,7 @@ namespace RashediConsulting\ShopifyFreeSamples;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Livewire\Livewire;
 
 class ShopifyFreeSamplesServiceProvider extends ServiceProvider
 {
@@ -17,12 +18,15 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ShopifyFreeSamples');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'ShopifyFreeSamples');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
 
-        $this->loadViewComponentsAs('ShopifyFreeSamples', [
+        /*$this->loadViewComponentsAs('ShopifyFreeSamples', [
             App\Views\Components\ProductList::class,
-        ]);
+        ]);*/
+
+        Livewire::component('ShopifyFreeSamples::product-list', \RashediConsulting\ShopifyFreeSamples\App\Http\Livewire\ProductList::class);
+
         //Blade::componentNamespace('RashediConsulting\\ShopifyFreeSamples\\App\\Views\\Components', 'ShopifyFreeSamples');
 
         if ($this->app->runningInConsole()) {
@@ -46,7 +50,9 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
             ], 'lang');*/
 
             // Registering package commands.
-            // $this->commands([]);
+            $this->commands([
+                \RashediConsulting\ShopifyFreeSamples\App\Console\Commands\UpdateProductCache::class
+            ]);
         }
     }
 
