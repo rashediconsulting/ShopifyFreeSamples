@@ -35,7 +35,6 @@ class ProductList extends Component
             'display_in_checkout' => false,
             'repeatable' => false,
         ]);
-
         $this->name = $this->free_sample_set->name;
         $this->active = $this->free_sample_set->active == 1;
         $this->quantity = $this->free_sample_set->quantity;

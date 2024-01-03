@@ -50,10 +50,11 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
             ], 'lang');*/
 
             // Registering package commands.
-            $this->commands([
-                \RashediConsulting\ShopifyFreeSamples\App\Console\Commands\UpdateProductCache::class
-            ]);
         }
+
+        $this->commands([
+            \RashediConsulting\ShopifyFreeSamples\App\Console\Commands\UpdateProductCache::class
+        ]);
     }
 
     /**
