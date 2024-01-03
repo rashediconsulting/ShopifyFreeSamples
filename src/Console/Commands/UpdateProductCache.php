@@ -5,6 +5,8 @@ namespace RashediConsulting\ShopifyFreeSamples\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
+use RashediConsulting\ShopifyFreeSamples\Services\ApiService;
+
 class UpdateProductCache extends Command
 {
     /**
@@ -21,16 +23,18 @@ class UpdateProductCache extends Command
      */
     protected $description = 'Updates the cache of shopify products';
 
-    public $order_service;
+    public $api_service;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ApiService $api_service)
     {
+        $this->api_service = $api_service;
         parent::__construct();
+
     }
 
     /**
@@ -40,27 +44,7 @@ class UpdateProductCache extends Command
      */
     public function handle()
     {
-        $shopify = \Signifly\Shopify\Factory::fromArray([
-            'access_token' => config('shopifyfreesamples.shopify_store_token', ''),
-            'domain'=> config('shopifyfreesamples.shopify_domain', ''),
-            'api_version'=> config('shopifyfreesamples.shopify_api_version', '2021-01'),
-        ]);
-
-        $pages = $shopify->paginateProducts(['limit' => 100]); // returns Cursor
-
-        $tmp_products = collect();
-
-        foreach ($pages as $page) {
-            // $page is a Collection of ApiResources
-            $tmp_products = $tmp_products->merge($page);
-        }
-
-        $product_list = [];
-        foreach ($tmp_products as $t_prd) {
-            $product_list[] = $t_prd->toArray();
-        }
-
-        Cache::put("ShopifyFreeSamples.product_list", $product_list);
+        Cache::put("ShopifyFreeSamples.product_list", $this->api_service->getAllProducts());
         return 0;
     }
 }

@@ -15,6 +15,6 @@ class SFSProduct extends Model
     protected $fillable = [
         "SFS_set_id",
         "product_id",
-        "allways_added",
+        "always_added",
     ];
 }

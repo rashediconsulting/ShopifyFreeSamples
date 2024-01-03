@@ -65,7 +65,7 @@ class ProductList extends Component
         SFSProduct::create([
             "SFS_set_id" => 1,
             "product_id" => $product_id,
-            "allways_added" => 0
+            "always_added" => 0
         ]);
 
         $this->free_sample_list[$product_id] = $this->product_list->pull($product_id);

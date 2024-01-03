@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('SFS_set_id')->constrained();
             $table->bigInteger('product_id');
-            $table->tinyInteger('allways_added');
+            $table->tinyInteger('always_added');
         });
     }
 
