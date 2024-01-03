@@ -25,7 +25,7 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
             App\Views\Components\ProductList::class,
         ]);*/
 
-        Livewire::component('ShopifyFreeSamples::product-list', \RashediConsulting\ShopifyFreeSamples\App\Http\Livewire\ProductList::class);
+        Livewire::component('ShopifyFreeSamples::product-list', \RashediConsulting\ShopifyFreeSamples\Http\Livewire\ProductList::class);
 
         //Blade::componentNamespace('RashediConsulting\\ShopifyFreeSamples\\App\\Views\\Components', 'ShopifyFreeSamples');
 
@@ -53,7 +53,7 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
         }
 
         $this->commands([
-            \RashediConsulting\ShopifyFreeSamples\App\Console\Commands\UpdateProductCache::class
+            \RashediConsulting\ShopifyFreeSamples\Console\Commands\UpdateProductCache::class
         ]);
     }
 

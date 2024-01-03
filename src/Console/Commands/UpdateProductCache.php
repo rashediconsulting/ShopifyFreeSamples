@@ -1,6 +1,6 @@
 <?php
 
-namespace RashediConsulting\ShopifyFreeSamples\App\Console\Commands;
+namespace RashediConsulting\ShopifyFreeSamples\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;

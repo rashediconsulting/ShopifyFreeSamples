@@ -1,12 +1,12 @@
 <?php
-namespace RashediConsulting\ShopifyFreeSamples\App\Http\Livewire;
+namespace RashediConsulting\ShopifyFreeSamples\Http\Livewire;
 
 use Livewire\Component;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 
-use RashediConsulting\ShopifyFreeSamples\App\Models\SFSSet;
-use RashediConsulting\ShopifyFreeSamples\App\Models\SFSProduct;
+use RashediConsulting\ShopifyFreeSamples\\Models\SFSSet;
+use RashediConsulting\ShopifyFreeSamples\\Models\SFSProduct;
 
 class ProductList extends Component
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace RashediConsulting\ShopifyFreeSamples\App\Models;
+namespace RashediConsulting\ShopifyFreeSamples\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace RashediConsulting\ShopifyFreeSamples\App\Http\Controllers;
+namespace RashediConsulting\ShopifyFreeSamples\Http\Controllers;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
