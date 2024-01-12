@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('SFS_sets', function (Blueprint $table) {
+        Schema::create('sfs_sets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->tinyInteger('active');

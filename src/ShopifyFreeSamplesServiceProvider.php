@@ -22,12 +22,12 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         /*$this->loadViewComponentsAs('ShopifyFreeSamples', [
-            App\Views\Components\ProductList::class,
+            Views\Components\ProductList::class,
         ]);*/
 
         Livewire::component('ShopifyFreeSamples::product-list', \RashediConsulting\ShopifyFreeSamples\Http\Livewire\ProductList::class);
 
-        //Blade::componentNamespace('RashediConsulting\\ShopifyFreeSamples\\App\\Views\\Components', 'ShopifyFreeSamples');
+        //Blade::componentNamespace('RashediConsulting\\ShopifyFreeSamples\\Views\\Components', 'ShopifyFreeSamples');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([

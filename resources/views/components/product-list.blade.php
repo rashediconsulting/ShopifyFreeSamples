@@ -28,7 +28,7 @@
     <button wire:click="saveChanges()">Save changes</button>
   </div>
 
-  <table class="auto">
+  <table class="table-auto">
     <thead>
       <tr>
         <th>Name</th>
@@ -49,7 +49,7 @@
     </tbody>
   </table>
 
-  <table class="auto">
+  <table class="table-auto">
     <thead>
       <tr>
         <th>Name</th>

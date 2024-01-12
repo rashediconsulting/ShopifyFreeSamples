@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('SFS_products', function (Blueprint $table) {
+        Schema::create('sfs_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('SFS_set_id')->constrained();
             $table->bigInteger('product_id');
