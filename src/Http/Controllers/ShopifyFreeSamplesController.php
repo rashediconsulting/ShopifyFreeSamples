@@ -82,6 +82,9 @@ class ShopifyFreeSamplesController extends Controller
 
         $data = $request->all();
 
-        $this->cart_service->addSamplesToCart($data);
+        $result = $this->cart_service->addSamplesToCart($data);
+
+        return response()->json($result);
+
     }
 }

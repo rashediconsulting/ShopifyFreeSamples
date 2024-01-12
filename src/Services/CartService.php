@@ -19,20 +19,23 @@ class CartService{
 	public function addSamplesToCart($cart_data){
 
 		if(count($cart_data) == 0){
-			return false;
+			return ["success" => false, "error" => "Cart missing line items"];
 		}
 
 		$samples = $this->getEligibleSamples();
 
-		if($this->cartHasOnlySamples($cart_data, $samples)){
-			return false;
-		}
+		/*if($this->cartHasOnlySamples($cart_data, $samples)){
+			return ["success" => false, "error" => "Cart has only samples"];
+		}*/
 
-		$this->removeExistingSamples($cart_data, $samples);
+		$samples_to_remove = $this->removeExistingSamples($cart_data, $samples);
 
-		$this->addSamples($cart_data, $samples, SFSSet::find(1));
+		$samples_to_add = $this->addSamples($cart_data, $samples, SFSSet::find(1));
 
-		dd($samples);
+		return [
+			"samples_to_remove" => $samples_to_remove,
+			"samples_to_add" => $samples_to_add
+		];
 	}
 
 	public function getEligibleSamples(){
@@ -42,9 +45,9 @@ class CartService{
 	protected function cartHasOnlySamples($cart_data, $sample_list){
 		$id_list = $sample_list->pluck("product_id");
 		$only_samples = true;
-		
+
 		foreach ($cart_data["line_items"] as $line_item) {
-			$only_samples &= $id_list->contains($line_item["product_id"]);
+			$only_samples &= $id_list->contains($line_item);
 		}
 
 		return $only_samples;
@@ -53,14 +56,16 @@ class CartService{
 	protected function removeExistingSamples($cart_data, $sample_list){
 		$id_list = $sample_list->pluck("product_id");
 		$only_samples = true;
-		
+
+		$samples_to_remove = [];
+
 		foreach ($cart_data["line_items"] as $line_item) {
-			if($id_list->contains($line_item["product_id"])){
-				$cart_data = $this->api_service->removeSampleProduct($cart_data, $line_item["product_id"]);
+			if($id_list->contains($line_item)){
+				$samples_to_remove[] = $line_item;
 			};
 		}
 
-		return $cart_data;
+		return $samples_to_remove;
 	}
 
 	protected function addSamples($cart_data, $sample_list, $sample_set){
@@ -76,19 +81,14 @@ class CartService{
 
 		$samples_to_add = collect();
 
-		for ($i=0; $i < min($sample_set->quantity, $always_added_samples->count()); $i++) { 
+		for ($i=0; $i < min($sample_set->quantity, $always_added_samples->count()); $i++) {
 			$samples_to_add[] = $always_added_samples[$i];
 		}
 
-		for ($i = count($samples_to_add); $i < $sample_set->quantity; $i++) { 
-			$samples_to_add[] = $randomly_added_samples->random();
+		for ($i = count($samples_to_add); $i < $sample_set->quantity; $i++) {
+			$samples_to_add[] = $randomly_added_samples->random()->product_id;
 		}
 
-		foreach ($samples_to_add as $sample) {			
-			$cart_data = $this->api_service->addSampleProduct($cart_data, $sample->product_id);
-		}
-
-		dd($sample_set);
-
+		return $samples_to_add;
 	}
 }
