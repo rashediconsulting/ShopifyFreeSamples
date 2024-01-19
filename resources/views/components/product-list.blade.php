@@ -43,7 +43,7 @@
     <div class="table-auto bg-white w-full">
       <div class="grid grid-cols-4">
         <div class="text-start font-bold">Name</div>
-        <div rowspan="2" class="text-start font-bold">Variants</div>
+        <div rowspan="2" class="text-start font-bold">Variant</div>
         <div class="text-start font-bold">Img</div>
         <div class="text-start font-bold">Actions</div>
       </div>
@@ -52,28 +52,39 @@
       @foreach($free_sample_list as $product)
         <div class="  grid grid-cols-4 py-3 ">
           <div>{{$product["title"]}}</div>
-          <div>{{implode(", ", array_map(function($item){return $item["title"];}, $product["variants"]))}}</div>
-          <div ><img src="{{count($product["images"]) > 1 ? $product["images"][0]["src"] : ""}}" alt="" style="height: 50px;"></div>
-          <div><button class="bg-gray-500 w-[180px] text-white uppercase p-3 text-xs font-bold " wire:click="removeProductFromFreeSample({{$product["id"]}})">Remove from samples</button></div>
+          @foreach($product["variants"] as $variant)
+            <div>{{$variant["title"]}}</div>
+            <div ><img src="{{count($product["images"]) > 1 ? $product["images"][0]["src"] : ""}}" alt="" style="height: 50px;"></div>
+            <div><button class="bg-gray-500 w-[180px] text-white uppercase p-3 text-xs font-bold " wire:click="removeProductFromFreeSample({{$variant["id"]}})">Remove from samples</button></div>
+          @endforeach
         </div>
       @endforeach
   
     </div>
 
-    <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Products</h2>
+    <h2 class="font-bold text-[#6C1131] mb-3 mt-5 text-xl">Products</h2>
     <div class=" bg-white w-full">
       <div class="grid grid-cols-4">
         <div class="text-start font-bold">Name</div>
-        <div class="text-start font-bold">Variants</div>
+        <div class="text-start font-bold">Variant</div>
         <div class="text-start font-bold">Img</div>
         <div class="text-start font-bold">Actions</div>
       </div>
       @foreach($product_list as $product)
-        <div class=" py-5 gap-y-2 mb-10 grid grid-cols-4">
-          <div>{{$product["title"]}}</div>
-          <div>{{implode(", ", array_map(function($item){return $item["title"];}, $product["variants"]))}}</div>
-          <div><img src="{{count($product["images"]) > 1 ? $product["images"][0]["src"] : ""}}" alt="" style="height: 50px;"></div>
-          <div><button class="bg-[#6C1131] w-[180px] text-white uppercase p-3 text-xs font-bold " wire:click="addProductAsFreeSample({{$product["id"]}})">Add to samples</button></div>
+        <div class="py-5 gap-y-2 mb-10 grid grid-cols-4">
+
+          <div class="col-span-1">
+            <div>{{$product["title"]}}</div>
+          </div>
+
+          <div class="col-span-3 grid grid-cols-3">
+            @foreach($product["variants"] as $variant)
+                <div>{{$variant["title"]}}</div>
+                <div ><img src="{{count($product["images"]) > 1 ? $product["images"][0]["src"] : ""}}" alt="" style="height: 50px;"></div>
+                <div><button class="bg-[#6C1131] w-[180px] text-white uppercase p-3 text-xs font-bold " wire:click="addProductAsFreeSample({{$variant["id"]}})">Add to samples</button></div>
+            @endforeach
+          </div>
+
         </div>
       @endforeach
     </div>

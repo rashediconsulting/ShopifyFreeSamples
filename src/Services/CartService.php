@@ -46,7 +46,7 @@ class CartService{
 		$id_list = $sample_list->pluck("product_id");
 		$only_samples = true;
 
-		foreach ($cart_data["line_items"] as $line_item) {
+		foreach ($cart_data["items"] as $line_item) {
 			$only_samples &= $id_list->contains($line_item);
 		}
 
@@ -59,7 +59,7 @@ class CartService{
 
 		$samples_to_remove = [];
 
-		foreach ($cart_data["line_items"] as $line_item) {
+		foreach ($cart_data["items"] as $line_item) {
 			if($id_list->contains($line_item)){
 				$samples_to_remove[] = $line_item;
 			};

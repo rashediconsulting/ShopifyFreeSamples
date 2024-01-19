@@ -51,10 +51,28 @@ class ProductList extends Component
         $this->product_list = collect();
 
         foreach ($raw_product_list as $prd) {
-            if($tmp_free_sample_list->contains($prd["id"])){
-                $this->free_sample_list[$prd["id"]] = $prd;
-            }else{
-                $this->product_list[$prd["id"]] = $prd;
+            $in_sample_list = $prd;
+            $out_sample_list = $prd;
+
+            $in_sample_list["variants"] = [];
+            $out_sample_list["variants"] = [];
+
+            foreach ($prd["variants"] as $variant) {
+                $variant["product_name"] = $prd["title"];
+                $variant["images"] = $prd["images"];
+                if($tmp_free_sample_list->contains($variant["id"])){
+                    $in_sample_list["variants"][] = $variant;
+                }else{
+                    $out_sample_list["variants"][] = $variant;
+                }
+            }
+
+            if(count($in_sample_list["variants"])){
+                $this->free_sample_list[] = $in_sample_list;
+            }
+
+            if(count($out_sample_list["variants"])){
+                $this->product_list[] = $out_sample_list;
             }
         }
     }
@@ -64,19 +82,19 @@ class ProductList extends Component
         return view('ShopifyFreeSamples::components.product-list');
     }
 
-    public function addProductAsFreeSample($product_id){
+    public function addProductAsFreeSample($variant_id){
         SFSProduct::create([
             "SFS_set_id" => 1,
-            "product_id" => $product_id,
+            "product_id" => $variant_id,
             "always_added" => 0
         ]);
 
-        $this->free_sample_list[$product_id] = $this->product_list->pull($product_id);
+        $this->free_sample_list[$variant_id] = $this->product_list->pull($variant_id);
     }
 
-    public function removeProductFromFreeSample($product_id){
-        SFSProduct::whereProductId($product_id)->where("sfs_set_id", "=", 1)->delete();
-        $this->product_list[$product_id] = $this->free_sample_list->pull($product_id);
+    public function removeProductFromFreeSample($variant_id){
+        SFSProduct::whereProductId($variant_id)->where("sfs_set_id", "=", 1)->delete();
+        $this->product_list[$variant_id] = $this->free_sample_list->pull($variant_id);
     }
 
     public function saveChanges(){
