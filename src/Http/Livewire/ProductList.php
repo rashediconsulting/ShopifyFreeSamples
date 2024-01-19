@@ -58,8 +58,6 @@ class ProductList extends Component
             $out_sample_list["variants"] = [];
 
             foreach ($prd["variants"] as $variant) {
-                $variant["product_name"] = $prd["title"];
-                $variant["images"] = $prd["images"];
                 if($tmp_free_sample_list->contains($variant["id"])){
                     $in_sample_list["variants"][] = $variant;
                 }else{
@@ -89,12 +87,10 @@ class ProductList extends Component
             "always_added" => 0
         ]);
 
-        $this->free_sample_list[$variant_id] = $this->product_list->pull($variant_id);
     }
 
     public function removeProductFromFreeSample($variant_id){
         SFSProduct::whereProductId($variant_id)->where("sfs_set_id", "=", 1)->delete();
-        $this->product_list[$variant_id] = $this->free_sample_list->pull($variant_id);
     }
 
     public function saveChanges(){
