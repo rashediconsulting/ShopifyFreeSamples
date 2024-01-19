@@ -1,4 +1,4 @@
-<div class="p-5  w-full">
+<div class="p-5 ml-[400px] mt-3  w-full">
 
   <div>
     @foreach($messages as $m)
@@ -14,7 +14,7 @@
     <div class="flex gap-3 group">
       <label class="text-[#6C1131] font-bold" for="active">Active</label>
       <input type="checkbox" wire:model="active" name="active" id="active" value="active">
-      <span class="absolute p-2 px-1  w-[200px] m-4 mx-auto text-sm text-gray-100 transition-opacity bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 top-[10px] " id="priceInfo">Activate the samples on live</span>
+      <span class="absolute p-2 px-1  w-[200px] m-4 mx-auto text-sm text-gray-100 transition-opacity bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 top-[8px] " id="priceInfo">Activate the samples on live</span>
     </div>
     <div class="flex gap-3 group">
       <label class="text-[#6C1131] font-bold" for="quantity">Quantity</label>
@@ -24,12 +24,12 @@
     <div class="flex gap-3 group">
       <label class="text-[#6C1131] font-bold" for="display_in_checkout">Display in checkout</label>
       <input type="checkbox" wire:model="display_in_checkout" name="display_in_checkout" id="display_in_checkout" value="display_in_checkout">
-       <span class="absolute p-2 px-1  w-[200px] m-4 mx-auto text-sm text-gray-100 transition-opacity bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 top-[-20px] " id="priceInfo">Activate if you want the samples to show on checkout</span>
+       <span class="absolute p-2 px-1  w-[200px] m-4 mx-auto text-sm text-gray-100 transition-opacity bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 top-[-15px] " id="priceInfo">Activate if you want the samples to show on checkout</span>
     </div>
     <div class="flex gap-3 group">
       <label class="text-[#6C1131] font-bold" for="repeatable">Repeatable</label>
       <input type="checkbox" wire:model="repeatable" name="repeatable" id="repeatable" value="repeatable">
-      <span class="absolute p-2 px-1  w-[200px] m-4 mx-auto text-sm text-gray-100 transition-opacity bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 top-[-30px] " id="priceInfo">Do you want to repeat the samples if there is not enough to fill the quantity?</span>
+      <span class="absolute p-2 px-1  w-[200px] m-4 mx-auto text-sm text-gray-100 transition-opacity bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 top-[-25px] " id="priceInfo">Do you want to repeat the samples if there is not enough to fill the quantity?</span>
     </div>
       <div>
         <button class="bg-[#6C1131] text-white uppercase p-3 text-xs font-bold " wire:click="saveChanges()">Save changes</button>
