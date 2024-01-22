@@ -37,6 +37,10 @@
 
   </div>
 
+  <div class="p-5 bg-white mb-8 shadow flex flex-col">
+      <label class="text-[#6C1131] font-bold mb-2" for="filter">Filter</label>
+      <input type="text" wire:model="filter" name="filter" id="filter" class="w-[220px] border border-gray rounded-lg bg-gray-100 py-2 px-3" wire:keydown="applyFilter">
+  </div>
 
   <div class="p-5 bg-white mb-8 shadow">
     <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Products included</h2>

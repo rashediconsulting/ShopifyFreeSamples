@@ -12,10 +12,14 @@ class ProductList extends Component
 {
     public $sample_set_id;
     public SFSSet $free_sample_set;
+    public $raw_product_list = [];
+    public $raw_free_sample_list = [];
     public $product_list = [];
     public $free_sample_list = [];
 
     public $messages=[];
+
+    public $filter;
 
     public $name;
     public $active;
@@ -44,13 +48,26 @@ class ProductList extends Component
         $this->display_in_checkout = $this->free_sample_set->display_in_checkout == 1;
         $this->repeatable = $this->free_sample_set->repeatable == 1;
 
-        $raw_product_list = Cache::get("ShopifyFreeSamples.product_list");
-        $tmp_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+        $this->raw_product_list = collect(Cache::get("ShopifyFreeSamples.product_list"));
+        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+    }
+
+    public function render()
+    {
+        $this->applyFilter();
+        return view('ShopifyFreeSamples::components.product-list');
+    }
+
+    public function applyFilter(){
+        $filtered_products = $this->raw_product_list->filter(function ($sample) {
+            return strpos(strtolower($sample["title"]), strtolower($this->filter)) !== false;
+        });
+
 
         $this->free_sample_list = collect();
         $this->product_list = collect();
 
-        foreach ($raw_product_list as $prd) {
+        foreach ($filtered_products as $prd) {
             $in_sample_list = $prd;
             $out_sample_list = $prd;
 
@@ -58,7 +75,7 @@ class ProductList extends Component
             $out_sample_list["variants"] = [];
 
             foreach ($prd["variants"] as $variant) {
-                if($tmp_free_sample_list->contains($variant["id"])){
+                if($this->raw_free_sample_list->contains($variant["id"])){
                     $in_sample_list["variants"][] = $variant;
                 }else{
                     $out_sample_list["variants"][] = $variant;
@@ -73,11 +90,8 @@ class ProductList extends Component
                 $this->product_list[] = $out_sample_list;
             }
         }
-    }
 
-    public function render()
-    {
-        return view('ShopifyFreeSamples::components.product-list');
+
     }
 
     public function addProductAsFreeSample($variant_id){
