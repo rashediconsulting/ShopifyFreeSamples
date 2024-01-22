@@ -24,13 +24,13 @@ class CartService{
 
 		$samples = $this->getEligibleSamples();
 
-		/*if($this->cartHasOnlySamples($cart_data, $samples)){
-			return ["success" => false, "error" => "Cart has only samples"];
-		}*/
+		$samples_to_add = [];
 
 		$samples_to_remove = $this->removeExistingSamples($cart_data, $samples);
 
-		$samples_to_add = $this->addSamples($cart_data, $samples, SFSSet::find(1));
+		if(!$this->cartHasOnlySamples($cart_data, $samples)){
+			$samples_to_add = $this->addSamples($cart_data, $samples, SFSSet::find(1));
+		}
 
 		return [
 			"samples_to_remove" => $samples_to_remove,
@@ -47,7 +47,7 @@ class CartService{
 		$only_samples = true;
 
 		foreach ($cart_data["items"] as $line_item) {
-			$only_samples &= $id_list->contains($line_item);
+			$only_samples &= $id_list->contains($line_item['id']);
 		}
 
 		return $only_samples;
@@ -60,8 +60,8 @@ class CartService{
 		$samples_to_remove = [];
 
 		foreach ($cart_data["items"] as $line_item) {
-			if($id_list->contains($line_item)){
-				$samples_to_remove[] = $line_item;
+			if($id_list->contains($line_item['id'])){
+				$samples_to_remove[] = $line_item['id'];
 			};
 		}
 
