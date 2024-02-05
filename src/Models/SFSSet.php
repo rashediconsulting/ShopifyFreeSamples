@@ -20,4 +20,8 @@ class SFSSet extends Model
         "display_in_checkout",
         "repeatable",
     ];
+
+    public function rules(){
+        return $this->hasMany(SFSRule::class, "sfs_set_id");
+    }
 }

@@ -26,6 +26,9 @@ class ShopifyFreeSamplesServiceProvider extends ServiceProvider
         ]);*/
 
         Livewire::component('ShopifyFreeSamples::product-list', \RashediConsulting\ShopifyFreeSamples\Http\Livewire\ProductList::class);
+        Livewire::component('ShopifyFreeSamples::sample-set-list', \RashediConsulting\ShopifyFreeSamples\Http\Livewire\SampleSetList::class);
+        Livewire::component('ShopifyFreeSamples::rule-set', \RashediConsulting\ShopifyFreeSamples\Http\Livewire\RuleSet::class);
+        Livewire::component('ShopifyFreeSamples::rule-detail', \RashediConsulting\ShopifyFreeSamples\Http\Livewire\RuleDetail::class);
 
         //Blade::componentNamespace('RashediConsulting\\ShopifyFreeSamples\\Views\\Components', 'ShopifyFreeSamples');
 

@@ -31,19 +31,15 @@ class ApiService{
 
         return $product_list;
 	}
-    
-    public function addSampleProduct($cart_data, $product_id){
-        $cart_data = $this->getEligibleSamples();
 
+    public function addSampleTagProduct($product_id){
         //TODO: Perform api call
 
         return $cart_data;
     }
 
 
-	public function removeSampleProduct($cart_data, $product_id){
-        $cart_data = $this->getEligibleSamples();
-
+	public function removeSampleTagProduct($product_id){
         //TODO: Perform api call
 
         return $cart_data;

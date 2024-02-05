@@ -10,8 +10,7 @@ use RashediConsulting\ShopifyFreeSamples\Models\SFSProduct;
 
 class ProductList extends Component
 {
-    public $sample_set_id;
-    public SFSSet $free_sample_set;
+    public SFSSet $sample_set;
     public $raw_product_list = [];
     public $raw_free_sample_list = [];
     public $product_list = [];
@@ -29,24 +28,11 @@ class ProductList extends Component
 
     public function boot()
     {
-        $this->free_sample_set = SFSSet::firstOrCreate(
-            [
-                'id' => $this->sample_set_id
-            ],
-            [
-                'name' => 'Default set',
-                'active' => true,
-                'quantity' => '2',
-                'display_in_checkout' => false,
-                'repeatable' => false,
-            ]
-        );
-
-        $this->name = $this->free_sample_set->name;
-        $this->active = $this->free_sample_set->active == 1;
-        $this->quantity = $this->free_sample_set->quantity;
-        $this->display_in_checkout = $this->free_sample_set->display_in_checkout == 1;
-        $this->repeatable = $this->free_sample_set->repeatable == 1;
+        $this->name = $this->sample_set->name;
+        $this->active = $this->sample_set->active == 1;
+        $this->quantity = $this->sample_set->quantity;
+        $this->display_in_checkout = $this->sample_set->display_in_checkout == 1;
+        $this->repeatable = $this->sample_set->repeatable == 1;
 
         $this->raw_product_list = collect(Cache::get("ShopifyFreeSamples.product_list"));
         $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
@@ -108,13 +94,13 @@ class ProductList extends Component
     }
 
     public function saveChanges(){
-        $this->free_sample_set->name = $this->name;
-        $this->free_sample_set->active = $this->active == 1;
-        $this->free_sample_set->quantity = $this->quantity;
-        $this->free_sample_set->display_in_checkout = $this->display_in_checkout == 1;
-        $this->free_sample_set->repeatable = $this->repeatable == 1;
+        $this->sample_set->name = $this->name;
+        $this->sample_set->active = $this->active == 1;
+        $this->sample_set->quantity = $this->quantity;
+        $this->sample_set->display_in_checkout = $this->display_in_checkout == 1;
+        $this->sample_set->repeatable = $this->repeatable == 1;
 
-        $this->free_sample_set->save();
+        $this->sample_set->save();
 
         $this->messages[]= 'Changes successfully saved.';
     }

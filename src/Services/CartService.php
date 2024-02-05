@@ -1,6 +1,8 @@
 <?php
-	
+
 namespace RashediConsulting\ShopifyFreeSamples\Services;
+
+use Illuminate\Support\Facades\Cache;
 
 use RashediConsulting\ShopifyFreeSamples\Models\SFSProduct;
 use RashediConsulting\ShopifyFreeSamples\Models\SFSSet;
@@ -13,6 +15,25 @@ class CartService{
     function __construct(ApiService $api_service) {
 
         $this->api_service = $api_service;
+    }
+
+    public function manageCartSamples($cart_data){
+
+    	$sample_sets = $this->getEligibleSampleSets($cart_data);
+        $raw_product_list = collect(Cache::get("ShopifyFreeSamples.product_list"));
+
+        dump($raw_product_list->pluck("tags", "id"));
+        dd($raw_product_list->filter(function($item){
+        	return str_contains($item["tags"], "gradient_dark");
+        })->pluck("tags", "id"));
+
+    	$data = [
+			"samples_to_remove" => [],
+			"samples_to_add" => [],
+		];
+
+
+
     }
 
 
@@ -38,8 +59,28 @@ class CartService{
 		];
 	}
 
-	public function getEligibleSamples(){
-        return SFSProduct::where("sfs_set_id", "=", 1)->get();
+	public function getEligibleSampleSets($cart_data){
+
+		$ss = SFSSet::all();
+
+		$sets_to_apply = [];
+
+		foreach ($ss as $set) {
+			if(count($set->rules) == 0){
+				$sets_to_apply[] = $set;
+			}else{
+				$passes = true;
+				foreach ($set->rules as $rule) {
+					$passes &= $rule->passes($cart_data);
+				}
+
+				if($passes){
+					$sets_to_apply = $set;
+				}
+			}
+		}
+
+        return $sets_to_apply;
 	}
 
 	protected function cartHasOnlySamples($cart_data, $sample_list){

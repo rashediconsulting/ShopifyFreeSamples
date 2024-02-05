@@ -7,10 +7,10 @@
 
   </div>
   <div class=" items-center bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow">
-    {{-- <div class="flex gap-3">
+    <div class="flex gap-3">
       <label class="text-[#6C1131] font-bold" for="name">Name</label>
       <input type="text" wire:model="name" name="name" id="name" class="w-[150px]">
-    </div> --}}
+    </div>
     <div class="flex gap-3 group">
       <label class="text-[#6C1131] font-bold" for="active">Active</label>
       <input type="checkbox" wire:model="active" name="active" id="active" value="active">
@@ -37,6 +37,12 @@
 
   </div>
 
+  <div class="p-5 bg-white mb-8 shadow">
+    <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Applied rules</h2>
+
+    @livewire("ShopifyFreeSamples::rule-set", ["sfs_set" => $sample_set])
+  </div>
+
   <div class="p-5 bg-white mb-8 shadow flex flex-col">
       <label class="text-[#6C1131] font-bold mb-2" for="filter">Filter</label>
       <input type="text" wire:model="filter" name="filter" id="filter" class="w-[220px] border border-gray rounded-lg bg-gray-100 py-2 px-3" wire:keydown="applyFilter">
@@ -51,7 +57,7 @@
         <div class="text-start font-bold">Img</div>
         <div class="text-start font-bold">Actions</div>
       </div>
-   
+
 
       @foreach($free_sample_list as $product)
         <div class="  grid grid-cols-4 py-3 ">
@@ -63,7 +69,7 @@
           @endforeach
         </div>
       @endforeach
-  
+
     </div>
 
     <h2 class="font-bold text-[#6C1131] mb-3 mt-5 text-xl">Products</h2>
