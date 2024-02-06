@@ -13,7 +13,7 @@ class SFSProduct extends Model
     public $table = "sfs_products";
 
     protected $fillable = [
-        "SFS_set_id",
+        "sfs_set_id",
         "product_id",
         "always_added",
     ];

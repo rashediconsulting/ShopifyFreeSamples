@@ -15,7 +15,7 @@ class ApiService{
             'api_version'=> config('shopifyfreesamples.shopify_api_version', '2021-01'),
         ]);
 
-        $pages = $shopify->paginateProducts(['limit' => 100]); // returns Cursor
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 469976482074]); // returns Cursor
 
         $tmp_products = collect();
 

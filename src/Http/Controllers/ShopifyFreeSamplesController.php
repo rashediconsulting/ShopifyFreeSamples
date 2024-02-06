@@ -145,7 +145,7 @@ class ShopifyFreeSamplesController extends Controller
         \Log::info(print_r($request->all(), true));
         */
 
-        $data = $request->all();
+        $data = collect($request->all());
 
 
         if(isset($data["items"])){

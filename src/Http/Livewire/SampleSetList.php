@@ -24,8 +24,28 @@ class SampleSetList extends Component
     }
 
     public function createSampleSet(){
-        dd($this);
+        $new_set = SFSSet::create(
+            [
+                'name' => 'New set',
+                'active' => false,
+                'quantity' => '2',
+                'display_in_checkout' => false,
+                'repeatable' => false,
+            ]
+        );
 
-        $this->messages[]= 'Changes successfully saved.';
+        return redirect()->to(route('free-sample-set-detail', $new_set));
     }
+
+    public function editSampleSet($sample_set_id){
+        return redirect()->to(route('free-sample-set-detail', $sample_set_id));
+    }   
+
+    public function deleteSampleSet($sample_set_id){
+        SFSSet::find($sample_set_id)->delete();
+
+        $this->messages[]= 'Sample set deleted.';
+    }
+
+    
 }

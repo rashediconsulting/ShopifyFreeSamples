@@ -82,7 +82,7 @@ class ProductList extends Component
 
     public function addProductAsFreeSample($variant_id){
         SFSProduct::create([
-            "SFS_set_id" => 1,
+            "sfs_set_id" => $this->sample_set->id,
             "product_id" => $variant_id,
             "always_added" => 0
         ]);
