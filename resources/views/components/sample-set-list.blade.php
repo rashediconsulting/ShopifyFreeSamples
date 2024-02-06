@@ -6,13 +6,13 @@
     @endforeach
 
   </div>
-  <div class=" items-center bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow">
-    <div class="p-5 bg-white mb-8 shadow">
+  <div class=" items-center h-screen bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow">
+    <div class="p-5 bg-white mb-8 shadow flex flex-col items-center justify-center">
       <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Sample sets</h2>
       <button type="button" class="bg-[#6C1131] text-white uppercase p-3 text-xs font-bold" wire:click="createSampleSet()">Create new set</button>
-      <div class="table-auto bg-white w-full">
+      <div class="table-auto flex justify-center items-center bg-white w-full">
 
-        <div class="grid grid-cols-4">
+        <div class="grid grid-cols-3 mt-3">
           <div class="text-start font-bold">Name</div>
           <div class="text-start font-bold">Rules</div>
           <div class="text-start font-bold">Active</div>
