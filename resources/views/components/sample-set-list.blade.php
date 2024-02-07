@@ -48,7 +48,7 @@
                                     </svg></span>
                             @endif
                         </div>
-                        <div class="flex flex-col gap-4">
+                        <div class="flex gap-4">
                             <button type="button" class="bg-[#6C1131] text-white uppercase p-3 text-xs font-bold"
                                 wire:click="editSampleSet({{ $sample_set->id }})">Edit set</button>
                             <button type="button" class="bg-[#6C1131] text-white uppercase p-3 text-xs font-bold"
