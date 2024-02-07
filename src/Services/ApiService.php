@@ -6,14 +6,24 @@ use RashediConsulting\ShopifyFreeSamples\Models\SFSProduct;
 
 class ApiService{
 
+    public $shopify_api;
+
+    public function getApiConnection(){
+        if(is_null($this->shopify_api)){
+            $this->shopify_api = \Signifly\Shopify\Factory::fromArray([
+                'access_token' => config('shopifyfreesamples.shopify_store_token', ''),
+                'domain'=> config('shopifyfreesamples.shopify_domain', ''),
+                'api_version'=> config('shopifyfreesamples.shopify_api_version', '2021-01'),
+            ]);
+        }
+
+        return $this->shopify_api;
+    }
+
 
 	public function getAllProducts(){
 
-		$shopify = \Signifly\Shopify\Factory::fromArray([
-            'access_token' => config('shopifyfreesamples.shopify_store_token', ''),
-            'domain'=> config('shopifyfreesamples.shopify_domain', ''),
-            'api_version'=> config('shopifyfreesamples.shopify_api_version', '2021-01'),
-        ]);
+        $shopify = $this->getApiConnection();
 
         $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 469976482074]); // returns Cursor
 
