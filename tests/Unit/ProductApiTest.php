@@ -4,6 +4,8 @@ namespace RashediConsulting\ShopifyFreeSamples\Tests\Unit;
 
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Cache;
+
 
 use RashediConsulting\ShopifyFreeSamples\Services\ApiService;
 
@@ -40,14 +42,15 @@ class ProductApiTest extends TestCase
 
     public function test_can_store_products_on_cache(): void
     {
-        //$api_connection = $this->api_service->getApiConnection();
+       $api_connection = $this->api_service->getApiConnection();
 
-        //$all_products = $this->api_service->getAllProducts();
+        $all_products = $this->api_service->getAllProducts();
 
-        //Cache::put("ShopifyFreeSamples.product_list", $this->api_service->getAllProducts());
+        Cache::put("ShopifyFreeSamples.product_list", $this->api_service->getAllProducts());
 
-        //$cache_prd = collect(Cache::get("ShopifyFreeSamples.product_list"));
-        //$this->assertIsArray($all_products);
-        //$this->assertGreaterThan(1, count($all_products));
+        $cache_prd = collect(Cache::get("ShopifyFreeSamples.product_list"));
+        $this->assertIsArray($all_products);
+        $this->assertGreaterThan(1, count($all_products));
     }
+
 }
