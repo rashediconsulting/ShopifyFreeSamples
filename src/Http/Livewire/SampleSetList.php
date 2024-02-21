@@ -13,13 +13,9 @@ class SampleSetList extends Component
 
     public $messages=[];
 
-    public function boot()
-    {
-        $this->sample_set_list = SFSSet::all();
-    }
-
     public function render()
     {
+        $this->sample_set_list = SFSSet::all();
         return view('ShopifyFreeSamples::components.sample-set-list');
     }
 
@@ -39,7 +35,7 @@ class SampleSetList extends Component
 
     public function editSampleSet($sample_set_id){
         return redirect()->to(route('free-sample-set-detail', $sample_set_id));
-    }   
+    }
 
     public function deleteSampleSet($sample_set_id){
         SFSSet::find($sample_set_id)->delete();
@@ -47,5 +43,5 @@ class SampleSetList extends Component
         $this->messages[]= 'Sample set deleted.';
     }
 
-    
+
 }

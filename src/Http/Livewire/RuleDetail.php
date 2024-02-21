@@ -12,12 +12,7 @@ class RuleDetail extends Component
     public SFSRule $rule;
     public $sfs_set_id;
 
-    public $rule_data = [
-        "sfs_set_id" => "",
-        "type" => "date",
-        "lower_range" => "",
-        "upper_range" => "",
-    ];
+    public $rule_data = false;
 
     protected $rules = [
         'rule.type' => 'required|string',
@@ -25,28 +20,28 @@ class RuleDetail extends Component
         'rule.upper_range' => 'required|string',
     ];
 
-    public function boot()
+    public function mount($sfs_set_id = null)
+    {
+        $this->sfs_set_id = $sfs_set_id;
+    }
+    public function render()
     {
         $this->rule->type = $this->rule->type ?: "date";
 
-        $this->rule_data = [
-            "sfs_set_id" => $this->sfs_set_id,
-            "type" => $this->rule->type,
-            "lower_range" => $this->rule->lower_range ?: "",
-            "upper_range" => $this->rule->upper_range ?: "",
-        ];
-
-
-    }
-
-    public function render()
-    {
+        if(!$this->rule_data){
+            $this->rule_data = [
+                "sfs_set_id" => $this->sfs_set_id,
+                "type" => $this->rule->type,
+                "lower_range" => $this->rule->lower_range ?: "",
+                "upper_range" => $this->rule->upper_range ?: "",
+            ];
+        }
         return view('ShopifyFreeSamples::components.rule-detail');
     }
 
     public function saveChanges(){
         $this->rule->fill($this->rule_data)->save();
-        //$this->dispatch('refreshSampleSetRules');
+        $this->dispatch('refreshSampleSetRules');
     }
 
     public function storeRule(){

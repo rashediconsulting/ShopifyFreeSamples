@@ -6,7 +6,7 @@
         @endforeach
 
     </div>
-    <div class=" items-center bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow">
+    <div class=" items-center bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow" wire:loading.class="wire-loading">
         <div class="flex gap-3">
             <label class="text-[#6C1131] font-bold" for="name">Name</label>
             <input type="text" wire:model="name" wire:change="saveChanges()" name="name" id="name"
@@ -49,7 +49,7 @@
     <div class="p-5 bg-white mb-8 shadow">
         <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Applied rules</h2>
 
-        @livewire('ShopifyFreeSamples::rule-set', ['sfs_set' => $sample_set])
+        @livewire('ShopifyFreeSamples::rule-set', ['sfs_set_id' => $sample_set->id])
     </div>
 
     <div class="p-5 bg-white mb-8 shadow flex flex-col">

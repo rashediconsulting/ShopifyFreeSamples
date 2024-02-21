@@ -21,6 +21,16 @@ class SFSSet extends Model
         "repeatable",
     ];
 
+    public  static function boot() {
+        parent::boot();
+
+        static::deleting(function($set) {
+            $set->rules()->delete();
+
+            return true;
+        });
+    }
+
     public function rules(){
         return $this->hasMany(SFSRule::class, "sfs_set_id");
     }

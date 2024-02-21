@@ -1,4 +1,4 @@
-<div class="p-5 ml-[400px] mt-3  w-full">
+<div class="p-5 ml-[400px] mt-3  w-full "  wire:loading.class="wire-loading">
 
     <div>
         @foreach ($messages as $m)
