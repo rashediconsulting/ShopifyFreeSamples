@@ -1,4 +1,4 @@
-<div class="p-5 ml-[400px] mt-3  w-full "  wire:loading.class="wire-loading">
+<div class="p-5 ml-[400px] mt-3  w-full">
 
     <div>
         @foreach ($messages as $m)
@@ -11,11 +11,11 @@
             <h2 class="font-bold text-[#6C1131] mb-3 text-4xl  ">Sample sets</h2>
 
         </div>
-        <div class="p-5 w-[80%] items-end  flex flex-col ">
+        <div class="p-5 w-[60%] items-end  flex flex-col ">
             <button type="button" class="bg-[#6C1131] w-[200px] text-white uppercase p-3 text-xs font-bold"
                 wire:click="createSampleSet()">Create new set</button>
         </div>
-        <div class="p-5 bg-white mb-8 shadow-md flex flex-col items-center justify-center">
+        <div class="p-5  w-[60%] bg-white mb-8 shadow-md flex flex-col items-center justify-center">
 
             <div class="table-auto flex flex-col  items-center bg-white w-full">
 
@@ -58,9 +58,11 @@
                             @endif
                         </div>
                         <div class="flex gap-4">
-                            <button type="button" class="bg-[#6C1131] text-white uppercase p-3 text-xs font-bold"
+                            <button type="button"
+                                class="bg-[#6C1131] max-h-[40px] text-white uppercase p-3 text-xs font-bold"
                                 wire:click="editSampleSet({{ $sample_set->id }})">Edit set</button>
-                            <button type="button" class="bg-[#6C1131] text-white uppercase p-3 text-xs font-bold"
+                            <button type="button"
+                                class="bg-red-600 text-white  max-h-[40px] uppercase p-3 text-xs font-bold"
                                 wire:click="deleteSampleSet({{ $sample_set->id }})">Delete set</button>
                         </div>
 
