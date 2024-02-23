@@ -1,5 +1,5 @@
 <?php
-	
+
 namespace RashediConsulting\ShopifyFreeSamples\Services;
 
 use RashediConsulting\ShopifyFreeSamples\Models\SFSProduct;
