@@ -3,7 +3,6 @@
 namespace RashediConsulting\ShopifyFreeSamples\Services;
 
 use Illuminate\Support\Facades\Cache;
-
 use RashediConsulting\ShopifyFreeSamples\Models\SFSProduct;
 use RashediConsulting\ShopifyFreeSamples\Models\SFSSet;
 use RashediConsulting\ShopifyFreeSamples\Services\ApiService;
