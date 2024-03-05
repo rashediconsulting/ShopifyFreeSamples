@@ -11,11 +11,11 @@
             <h2 class="font-bold text-[#6C1131] mb-3 text-4xl  ">Sample sets</h2>
 
         </div>
-        <div class="p-5 w-[60%] items-end  flex flex-col ">
+        <div class=" w-[75%] items-end  flex flex-col ">
             <button type="button" class="bg-[#6C1131] w-[200px] text-white uppercase p-3 text-xs font-bold"
                 wire:click="createSampleSet()">Create new set</button>
         </div>
-        <div class="p-5  w-[60%] bg-white mb-8 shadow-md flex flex-col items-center justify-center">
+        <div class="p-5  w-[75%] bg-white mb-8 shadow-md flex flex-col items-center justify-center">
 
             <div class="table-auto flex flex-col  items-center bg-white w-full">
 
