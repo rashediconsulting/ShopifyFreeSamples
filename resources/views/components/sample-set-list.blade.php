@@ -7,27 +7,28 @@
 
     </div>
     <div class=" items-center  bg-white rounded mt-3 flex flex-col justify-center  gap-10 p-5 mb-5 shadow">
-        <div class="flex flex-col justify-end items-end mb-10 mt-10">
+        <div class="flex flex-col justify-end items-end  mt-10">
             <h2 class="font-bold text-[#6C1131] mb-3 text-4xl  ">Sample sets</h2>
 
         </div>
         <div class=" w-[75%] items-end  flex flex-col ">
-            <button type="button" class="bg-[#6C1131] w-[200px] text-white uppercase p-3 text-xs font-bold"
+            <button type="button"
+                class="bg-[#6C1131] hover:shadow-lg w-[200px] text-white uppercase p-3 text-xs font-bold"
                 wire:click="createSampleSet()">Create new set</button>
         </div>
-        <div class="p-5  w-[75%] bg-white mb-8 shadow-md flex flex-col items-center justify-center">
+        <div class="p-5  w-[75%] bg-white mb-8 shadow-lg flex flex-col items-center justify-center">
 
-            <div class="table-auto flex flex-col  items-center bg-white w-full">
+            <div class="table-auto ml-20 mt-10  flex flex-col  items-center bg-white w-[80%]">
 
-                <div class="grid grid-cols-4 mt-3 w-full gap-4">
-                    <div class="text-start font-bold">Name</div>
-                    <div class="text-start font-bold">Rules</div>
-                    <div class="text-start font-bold">Active</div>
-                    <div class="text-start font-bold">Actions</div>
+                <div class="grid grid-samples mt-3 w-full gap-4">
+                    <div class="text-start text-[#6C1131] font-bold">Name</div>
+                    <div class="text-start text-[#6C1131] font-bold">Rules</div>
+                    <div class="text-start text-[#6C1131] font-bold">Active</div>
+                    <div class="text-start text-[#6C1131] font-bold">Actions</div>
                 </div>
 
                 @foreach ($sample_set_list as $sample_set)
-                    <div class="py-5 gap-y-2 mb-10 grid grid-cols-4 gap-4 w-full ">
+                    <div class="py-5 gap-y-2 mb-10 grid grid-samples gap-4 w-full ">
                         <div class="">
                             <div>{{ $sample_set->name }}</div>
                         </div>
