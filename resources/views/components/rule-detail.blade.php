@@ -4,7 +4,7 @@
             <select name="rule_type" id="rule_type" class="border border-[#6C1131] p-2" wire:model.live="rule_data.type"
                 required @if (!empty($rule->id)) wire:change="saveChanges()" @endif>
                 <option value="date">Date range</option>
-                <option value="number">Price range</option>
+                <option value="price">Price range</option>
             </select>
         </div>
 

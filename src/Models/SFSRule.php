@@ -21,7 +21,22 @@ class SFSRule extends Model
     ];
 
     public function getShortDescriptionAttribute(){
-        return $this->type . " - " . $this->lower_range . " -> " . $this->upper_range;
+        $message = '';
+        switch ($this->type) {
+            case 'date':
+                $message = 'Date range: ';
+                break;
+
+            case 'price':
+                $message = 'Price range: ';
+                break;
+
+            default:
+                return false;
+                break;
+        }
+
+        return $message . $this->lower_range . " -> " . $this->upper_range;
     }
 
     public function passes($cart_data){
