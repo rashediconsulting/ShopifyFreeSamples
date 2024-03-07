@@ -77,7 +77,6 @@ class ProductList extends Component
             }
         }
 
-
     }
 
     public function addProductAsFreeSample($variant_id){
@@ -86,11 +85,14 @@ class ProductList extends Component
             "product_id" => $variant_id,
             "always_added" => 0
         ]);
-
+        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+        $this->applyFilter();
     }
 
     public function removeProductFromFreeSample($variant_id){
         SFSProduct::whereProductId($variant_id)->where("sfs_set_id", "=", 1)->delete();
+        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+        $this->applyFilter();
     }
 
     public function saveChanges(){
