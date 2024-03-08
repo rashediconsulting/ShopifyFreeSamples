@@ -11,14 +11,14 @@
             <h2 class="font-bold text-[#6C1131] mb-3 text-4xl  ">Sample sets</h2>
 
         </div>
-        <div class=" w-[75%] items-end  flex flex-col ">
+        <div class=" w-[80%] items-end  flex flex-col ">
             <button type="button"
                 class="bg-[#6C1131] hover:shadow-lg w-[200px] text-white uppercase p-3 text-xs font-bold"
                 wire:click="createSampleSet()">Create new set</button>
         </div>
-        <div class="p-5  w-[75%] bg-white mb-8 shadow-lg flex flex-col items-center justify-center">
+        <div class="p-5  w-[80%] bg-white mb-8 shadow-lg flex flex-col items-center justify-center">
 
-            <div class="table-auto ml-20 mt-10  flex flex-col  items-center bg-white w-[80%]">
+            <div class="table-auto ml-8 mt-10  flex flex-col w-full  items-center bg-white ">
 
                 <div class="grid grid-samples mt-3 w-full gap-4">
                     <div class="text-start text-[#6C1131] font-bold">Name</div>
