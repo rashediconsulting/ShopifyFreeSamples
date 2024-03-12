@@ -35,7 +35,7 @@ class ProductList extends Component
         $this->repeatable = $this->sample_set->repeatable == 1;
 
         $this->raw_product_list = collect(Cache::get("ShopifyFreeSamples.product_list"));
-        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", $this->sample_set->id)->get()->pluck("product_id");
     }
 
     public function render()
@@ -85,13 +85,13 @@ class ProductList extends Component
             "product_id" => $variant_id,
             "always_added" => 0
         ]);
-        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", $this->sample_set->id)->get()->pluck("product_id");
         $this->applyFilter();
     }
 
     public function removeProductFromFreeSample($variant_id){
-        SFSProduct::whereProductId($variant_id)->where("sfs_set_id", "=", 1)->delete();
-        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", 1)->get()->pluck("product_id");
+        SFSProduct::whereProductId($variant_id)->where("sfs_set_id", "=", $this->sample_set->id)->delete();
+        $this->raw_free_sample_list = SFSProduct::where("sfs_set_id", "=", $this->sample_set->id)->get()->pluck("product_id");
         $this->applyFilter();
     }
 
