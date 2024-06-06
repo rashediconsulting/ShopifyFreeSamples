@@ -18,10 +18,13 @@ class CartService{
 
     public function manageCartSamples($cart_data){
 
-    	$sample_sets = $this->getEligibleSampleSets($cart_data);
-        $all_products = collect(Cache::get("ShopifyFreeSamples.product_list"))->pluck("variants.*.id")->flatten();
 
-        $prd_in_cart = collect($cart_data["items"])->pluck("id");
+		$sample_sets = $this->getEligibleSampleSets($cart_data);
+		$all_products = collect(Cache::get("ShopifyFreeSamples.product_list"))->pluck("variants.*.id")->flatten();
+		$excluded_products = collect(Cache::get("ShopifyFreeSamples.excluded_product_list"))->pluck("variants.*.id")->flatten();
+
+		$prd_in_cart = collect($cart_data["items"])->pluck("id");
+		$not_excluded_products = $prd_in_cart->intersect($excluded_products)->toArray(),
 
     	$data = [
 			"samples_to_remove" => $prd_in_cart->intersect($all_products)->toArray(),
