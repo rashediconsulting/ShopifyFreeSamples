@@ -158,7 +158,6 @@ class ShopifyFreeSamplesController extends Controller
 
     public function addSamplesToCompletedOrder(Request $request){
 
-            $result = $this->cart_service->addRemoveGraphQlSamples([], []);
         $data = collect($request->all());
 
         if(isset($data["items"]) || true){

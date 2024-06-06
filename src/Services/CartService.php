@@ -77,13 +77,37 @@ class CartService{
 
 	public function addRemoveGraphQlSamples($data = [], $samples = []){
 
-		$order_gid = "gid://shopify/Order/-----";
+		$order_gid = "gid://shopify/Order/" . $data["id"];
 
 		$queryString = <<<QUERY
 		mutation beginEdit{
 		 orderEditBegin(id: "$order_gid"){
 			calculatedOrder{
-			  id
+			  id,
+			  CalculatedLineItems (first:99){
+			  		edges{
+			  			node{
+					  		id,
+					  		variant{
+					  			id
+					  		},
+					  		quantity
+			  			}
+			  		}
+			  	}
+			  order{
+			  	lineItems (first:99){
+			  		edges{
+			  			node{
+					  		id,
+					  		variant{
+					  			id
+					  		},
+					  		quantity
+			  			}
+			  		}
+			  	}
+			  }
 			}
 		  }
 		}
@@ -91,28 +115,109 @@ class CartService{
 
 		$parsed_response = $this->api_service->graphQlQuery($queryString);
 
+		dd($parsed_response);
 		$calculated_order = $parsed_response?->data?->orderEditBegin?->calculatedOrder?->id;
-
 		if(!empty($calculated_order)){
 
-			/*foreach ($samples["samples_to_add"] as $sample_id) {
-				// code...
-			}*/
-			$sample_id = "-----";
+			foreach (array_count_values($samples["samples_to_remove"]) as $sample_id => $sample_count) {
 
-			$add_sample = <<<QUERY
-			mutation addVariantToOrder{
-			  orderEditAddVariant(id: "$calculated_order", variantId: "gid://shopify/ProductVariant/$sample_id", quantity: 1){
-				calculatedOrder {
-				  id
-				  addedLineItems(first:5) {
-					edges {
-					  node {
-						id
-						quantity
+				foreach ($parsed_response->data->orderEditBegin->calculatedOrder->order->lineItems->edges as $line_item) {
+
+					$line_item_gid = $line_item->node->id;
+					$variant = $line_item->node->variant->id;
+					if("gid://shopify/ProductVariant/" . $sample_id == $variant){
+						$remove_sample = <<<QUERY
+						mutation increaseLineItemQuantity {
+						  orderEditSetQuantity(id: "$calculated_order", lineItemId: "$line_item_gid", quantity: 0) {
+						    calculatedOrder {
+						      id
+						      addedLineItems(first: 5) {
+						        edges {
+						          node {
+						            id
+						            quantity
+						          }
+						        }
+						      }
+						    }
+						    userErrors {
+						      field
+						      message
+						    }
+						  }
+						}
+						QUERY;
+						dd($remove_sample);
+						$parsed_response = $this->api_service->graphQlQuery($remove_sample);
+						dd($parsed_response);
+						$user_errors = $parsed_response?->data?->orderEditAddVariant->userErrors;
+
+						if(count($user_errors) > 0){
+							$error_list = '';
+							foreach ($user_errors as $item) {
+							    if (!empty($item->message)) {
+							        $error_list .= "\t\t" . $item->message . PHP_EOL;
+							    }
+							}
+
+			        		\Log::info("Order processing error:");
+			        		\Log::info("\tGid: " . $order_gid);
+			        		\Log::info("\tMessages:");
+			        		\Log::info($error_list);
+
+						}
+					}
+				}
+			}
+
+			foreach (array_count_values($samples["samples_to_add"]) as $sample_id => $sample_count) {
+				$add_sample = <<<QUERY
+				mutation addVariantToOrder{
+				  orderEditAddVariant(id: "$calculated_order", variantId: "gid://shopify/ProductVariant/$sample_id", quantity: $sample_count){
+					calculatedOrder {
+					  id
+					  addedLineItems(first:5) {
+						edges {
+						  node {
+							id
+							quantity
+						  }
+						}
 					  }
 					}
+					userErrors {
+					  field
+					  message
+					}
 				  }
+				}
+				QUERY;
+
+				$parsed_response = $this->api_service->graphQlQuery($add_sample);
+
+				$user_errors = $parsed_response?->data?->orderEditAddVariant->userErrors;
+
+				if(count($user_errors) > 0){
+					$error_list = '';
+					foreach ($user_errors as $item) {
+					    if (!empty($item->message)) {
+					        $error_list .= "\t\t" . $item->message . PHP_EOL;
+					    }
+					}
+
+	        		\Log::info("Order processing error:");
+	        		\Log::info("\tGid: " . $order_gid);
+	        		\Log::info("\tMessages:");
+	        		\Log::info($error_list);
+
+				}
+			}
+
+			$commit_edits = <<<QUERY
+			mutation commitEdit {
+			  orderEditCommit(id: "$calculated_order", notifyCustomer: false, staffNote: "Samples added using GraphQL") {
+				order {
+				  id
 				}
 				userErrors {
 				  field
@@ -122,8 +227,7 @@ class CartService{
 			}
 			QUERY;
 
-			$parsed_response = $this->api_service->graphQlQuery($add_sample);
-
+			$parsed_response = $this->api_service->graphQlQuery($commit_edits);
 			dd($parsed_response, $this->api_service->last_response);
 
 		}else{
@@ -131,72 +235,8 @@ class CartService{
 		}
 
 
-		$pending_request->getDecodedBody();
-
-		/*[
-			"data" => [
-			  "orderEditBegin" => [
-				"calculatedOrder" => [
-				  "id" => "gid://shopify/CalculatedOrder/-------",
-				],
-			  ],
-			],
-			"extensions" => [
-			  "cost" => [
-				"requestedQueryCost" => 10,
-				"actualQueryCost" => 10,
-				"throttleStatus" => [
-				  "maximumAvailable" => 2000.0,
-				  "currentlyAvailable" => 1990,
-				  "restoreRate" => 100.0,
-				],
-			  ],
-			],
-		]*/
 
 
-		$add_sample = <<<QUERY
-		mutation addVariantToOrder{
-		  orderEditAddVariant(id: "gid://shopify/CalculatedOrder/-------", variantId: "gid://shopify/ProductVariant/------", quantity: 1){
-			calculatedOrder {
-			  id
-			  addedLineItems(first:5) {
-				edges {
-				  node {
-					id
-					quantity
-				  }
-				}
-			  }
-			}
-			userErrors {
-			  field
-			  message
-			}
-		  }
-		}
-		QUERY;
-
-		$response = $client->query(data: $add_sample);
-		$response->getDecodedBody();
-
-
-		$commit_edits = <<<QUERY
-		mutation commitEdit {
-		  orderEditCommit(id: "gid://shopify/CalculatedOrder/-------", notifyCustomer: false, staffNote: "Samples added using GraphQL") {
-			order {
-			  id
-			}
-			userErrors {
-			  field
-			  message
-			}
-		  }
-		}
-		QUERY;
-
-		$response = $client->query(data: $commit_edits);
-		$response->getDecodedBody();
 
 	}
 }
