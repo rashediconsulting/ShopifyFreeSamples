@@ -155,4 +155,20 @@ class ShopifyFreeSamplesController extends Controller
             return response()->json(["success"=>true, "message"=>$data]);
         }
     }
+
+    public function addSamplesToCompletedOrder(Request $request){
+
+            $result = $this->cart_service->addRemoveGraphQlSamples([], []);
+        $data = collect($request->all());
+
+        if(isset($data["items"]) || true){
+            $samples = $this->cart_service->manageCartSamples($data);
+            
+            $result = $this->cart_service->addRemoveGraphQlSamples($data, $samples);
+
+            return response()->json($result);
+        }else{
+            return response()->json(["success"=>true, "message"=>$data]);
+        }
+    }
 }
