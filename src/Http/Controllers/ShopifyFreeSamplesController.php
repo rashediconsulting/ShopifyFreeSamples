@@ -737,13 +737,13 @@ class ShopifyFreeSamplesController extends Controller
 
         $data = $request->all();
 
-        \Log::info("RAW order data");
-        \Log::info(print_r($data, true));
+        //\Log::info("RAW order data");
+        //\Log::info(print_r($data, true));
 
         if(isset($data["line_items"])){
 
             $samples = $this->cart_service->manageCartSamples($data);
-            \Log::info(print_r($samples, true));
+            //\Log::info(print_r($samples, true));
             $result = $this->cart_service->addRemoveGraphQlSamples($data, $samples);
 
             return response()->json($result);

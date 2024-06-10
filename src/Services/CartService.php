@@ -164,9 +164,7 @@ class CartService{
 				"removed" => array_values($samples["samples_to_remove"])
 			]));
 
-			\Log::info("Samples removed using GraphQL: $message");
-
-			/*$commit_remove_edits = <<<QUERY
+			$commit_remove_edits = <<<QUERY
 			mutation commitEdit {
 			  orderEditCommit(id: "$remove_samples_calculated_order", notifyCustomer: false, staffNote: "Samples removed using GraphQL: $message") {
 				order {
@@ -180,7 +178,7 @@ class CartService{
 			}
 			QUERY;
 
-			$remove_response = $this->api_service->graphQlQuery($commit_remove_edits);*/
+			$remove_response = $this->api_service->graphQlQuery($commit_remove_edits);
 
 			$queryString = <<<QUERY
 			mutation beginEdit{
@@ -254,9 +252,8 @@ class CartService{
 				"added" => array_count_values($samples["samples_to_add"])
 			]));
 
-			\Log::info("Samples added using GraphQL: $message");
 
-			/*$commit_edits = <<<QUERY
+			$commit_edits = <<<QUERY
 			mutation commitEdit {
 			  orderEditCommit(id: "$add_samples_calculated_order", notifyCustomer: false, staffNote: "Samples added using GraphQL: $message") {
 				order {
@@ -270,7 +267,8 @@ class CartService{
 			}
 			QUERY;
 
-			$add_response = $this->api_service->graphQlQuery($commit_edits);*/
+			$add_response = $this->api_service->graphQlQuery($commit_edits);
+			\Log::info("Samples added using GraphQL: $message");
 
 			return true;
 		}else{
