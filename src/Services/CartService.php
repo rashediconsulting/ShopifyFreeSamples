@@ -21,7 +21,8 @@ class CartService{
 		$sample_sets = $this->getEligibleSampleSets($cart_data);
 		$all_products = collect(Cache::get("ShopifyFreeSamples.product_list"))->pluck("variants.*.id")->flatten();
 
-		$prd_in_cart = collect($cart_data["items"])->pluck("id");
+		$items = isset($cart_data["items"]) ? collect($cart_data["items"]) : collect($cart_data["line_items"]);
+		$prd_in_cart = $items->pluck("id");
 
 		$data = [
 			"samples_to_remove" => $prd_in_cart->intersect($all_products)->toArray(),
@@ -76,7 +77,6 @@ class CartService{
 	}
 
 	public function addRemoveGraphQlSamples($data = [], $samples = []){
-
 
 		\Log::info("Order processing:");
 		\Log::info("\tId: " . $data["id"]);
@@ -275,7 +275,7 @@ class CartService{
 
 			return true;
 		}else{
-			throw new Exception("Order mutation can not be created", 1);
+			throw new \Exception("Order mutation can not be created", 1);
 		}
 	}
 }
