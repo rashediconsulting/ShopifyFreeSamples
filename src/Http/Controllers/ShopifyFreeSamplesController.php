@@ -158,12 +158,6 @@ class ShopifyFreeSamplesController extends Controller
 
     public function addSamplesToCompletedOrder(Request $request){
 
-        $data = collect($request->all());
-
-        \Log::info("RAW order data");
-        \Log::info(print_r($data, true));
-
-
         /*
         WEBHOOK example
         [items:protected] => Array
@@ -741,11 +735,16 @@ class ShopifyFreeSamplesController extends Controller
 
         )*/
 
-        if(isset($data["items"])){
+        $data = $request->all();
 
-            $samples = $this->cart_service->manageCartSamples($data["items"]);
+        \Log::info("RAW order data");
+        \Log::info(print_r($data, true));
+
+        if(isset($data["line_items"])){
+
+            $samples = $this->cart_service->manageCartSamples($data);
             \Log::info(print_r($samples, true));
-            $result = $this->cart_service->addRemoveGraphQlSamples($data["items"], $samples);
+            $result = $this->cart_service->addRemoveGraphQlSamples($data, $samples);
 
             return response()->json($result);
         }else{
