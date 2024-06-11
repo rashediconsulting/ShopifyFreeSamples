@@ -72,7 +72,7 @@ class SampleManagementTest extends TestCase
             [ 'id' => 11 ],
             [ 'id' => 12 ],
         ]
-        ]);
+    ]);
 
     $this-> assertCount(0,$result['samples_to_remove']);
     $this-> assertCount(2,$result['samples_to_add']);

@@ -15,7 +15,7 @@ class SampleSetList extends Component
 
     public function render()
     {
-        $this->sample_set_list = SFSSet::all();
+        $this->sample_set_list = SFSSet::orderBy('active', 'desc')->orderBy('id', 'desc')->get();
         return view('ShopifyFreeSamples::components.sample-set-list');
     }
 

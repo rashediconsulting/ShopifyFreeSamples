@@ -23,7 +23,8 @@
         "signifly/laravel-shopify": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6"
+        "barryvdh/laravel-debugbar": "^3.10",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {

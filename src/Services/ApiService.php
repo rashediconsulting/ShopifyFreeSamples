@@ -7,6 +7,7 @@ use RashediConsulting\ShopifyFreeSamples\Models\SFSProduct;
 class ApiService{
 
     public $shopify_api;
+    public $last_response;
 
     public function getApiConnection(){
         if(is_null($this->shopify_api)){
@@ -42,19 +43,43 @@ class ApiService{
         return $product_list;
 	}
 
-    public function addSampleTagProduct($product_id){
-        //TODO: Perform api call
+    public function getExcludedProducts(){
 
-        return $cart_data;
+        $shopify = $this->getApiConnection();
+
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 512639697163]); // returns Cursor
+
+        $tmp_products = collect();
+
+        foreach ($pages as $page) {
+            // $page is a Collection of ApiResources
+            $tmp_products = $tmp_products->merge($page);
+        }
+
+        $product_list = [];
+        foreach ($tmp_products as $t_prd) {
+            $product_list[] = $t_prd->toArray();
+        }
+
+        return $product_list;
     }
 
 
-	public function removeSampleTagProduct($product_id){
-        //TODO: Perform api call
+    public function graphQlQuery($query){
 
-        return $cart_data;
-	}
+        if(is_null($this->shopify_api)){
+            $this->shopify_api = $this->getApiConnection();
+        }
 
+        $pending_request = $this->shopify_api->graphQl();
 
+        $pending_request->withBody(json_encode(['query' => $query]));
+
+        $response = $pending_request->post('');
+
+        $this->last_response = $response;
+
+        return json_decode($response->getBody()->getContents());
+    }
 
 }
