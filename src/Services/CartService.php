@@ -110,7 +110,11 @@ class CartService{
 		          }
 		        }
 			  }
-			}
+			},
+		    userErrors {
+		      field
+		      message
+		    }
 		  }
 		}
 		QUERY;
@@ -119,7 +123,6 @@ class CartService{
 
 		$remove_samples_calculated_order = $parsed_response?->data?->orderEditBegin?->calculatedOrder?->id;
 		if(!empty($remove_samples_calculated_order)){
-
 			foreach ($samples["samples_to_remove"] as $sample_id) {
 
 				foreach ($parsed_response->data->orderEditBegin->calculatedOrder->lineItems->edges as $line_item) {
@@ -284,7 +287,8 @@ class CartService{
 
 			return true;
 		}else{
-			throw new \Exception("Order mutation can not be created", 1);
+			\Log::info("Order mutation can not be created:");
+			\Log::info("\t" . $parsed_response?->data?->orderEditBegin?->userErrors[0]->message);
 		}
 	}
 }
