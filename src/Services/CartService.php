@@ -19,23 +19,32 @@ class CartService{
 	public function manageCartSamples($cart_data){
 
 		$sample_sets = $this->getEligibleSampleSets($cart_data);
-		$all_products = collect(Cache::get("ShopifyFreeSamples.product_list"))->pluck("variants.*.id")->flatten();
 		
+		$samples_list = collect(Cache::get("ShopifyFreeSamples.product_list"))->pluck("variants.*.id")->flatten();
 		$excluded_products = collect(Cache::get("ShopifyFreeSamples.excluded_product_list"))->pluck("variants.*.id")->flatten();
 
 		$prd_in_cart = isset($cart_data["items"]) ? collect($cart_data["items"])->pluck("id") : collect($cart_data["line_items"])->pluck("variant_id");
-		$not_excluded_products = $prd_in_cart->intersect($excluded_products)->toArray(),
+		
+		$prd_without_samples = $prd_in_cart->diff($samples_list);
+		$remaining_products = $prd_without_samples->diff($excluded_products)->toArray();
+
+		//dd(compact(['samples_list', 'excluded_products', 'prd_in_cart', 'prd_without_samples', 'remaining_products']));
 
 		$data = [
-			"samples_to_remove" => $prd_in_cart->intersect($all_products)->toArray(),
+			"samples_to_remove" => $prd_in_cart->intersect($samples_list)->toArray(),
 			"samples_to_add" => [],
+			"message" => 'ok',
 		];
-
 		//IF all products in cart are samples we don't have to add new ones. Just remove the existing ones.
-		if(count($data["samples_to_remove"]) != $prd_in_cart->count()){
+		if(count($remaining_products) > 0){
 			foreach ($sample_sets as $smp_set) {
 				$data["samples_to_add"] = array_merge($data["samples_to_add"], $this->addSamples($smp_set));
 			}
+		}else{
+			$data['message'] = 'All products are samples or excluded from samples';
+			\Log::info("Processing: ");
+			\Log::info("\tId: " . $cart_data["id"]);
+			\Log::info("\tMessage: " . $data['message']);
 		}
 
 		return $data;
@@ -80,8 +89,8 @@ class CartService{
 
 	public function addRemoveGraphQlSamples($data = [], $samples = []){
 
-		\Log::info("Order processing:");
-		\Log::info("\tId: " . $data["id"]);
+		//\Log::info("Order processing:");
+		//\Log::info("\tId: " . $data["id"]);
 
 		$order_gid = "gid://shopify/Order/" . $data["id"];
 
@@ -271,7 +280,7 @@ class CartService{
 			QUERY;
 
 			$add_response = $this->api_service->graphQlQuery($commit_edits);
-			\Log::info("Samples added using GraphQL: $message");
+			//\Log::info("Samples added using GraphQL: " . $samples['message']);
 
 			return true;
 		}else{

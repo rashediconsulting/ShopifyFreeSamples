@@ -26,7 +26,7 @@ class ApiService{
 
         $shopify = $this->getApiConnection();
 
-        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 469976482074]); // returns Cursor
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 511199215883]); // returns Cursor
 
         $tmp_products = collect();
 
