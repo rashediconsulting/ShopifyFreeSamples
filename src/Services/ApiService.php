@@ -26,7 +26,7 @@ class ApiService{
 
         $shopify = $this->getApiConnection();
 
-        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 469976482074]); // returns Cursor
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 511199215883]); // returns Cursor
 
         $tmp_products = collect();
 
@@ -42,6 +42,28 @@ class ApiService{
 
         return $product_list;
 	}
+
+    public function getExcludedProducts(){
+
+        $shopify = $this->getApiConnection();
+
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 512639697163]); // returns Cursor
+
+        $tmp_products = collect();
+
+        foreach ($pages as $page) {
+            // $page is a Collection of ApiResources
+            $tmp_products = $tmp_products->merge($page);
+        }
+
+        $product_list = [];
+        foreach ($tmp_products as $t_prd) {
+            $product_list[] = $t_prd->toArray();
+        }
+
+        return $product_list;
+    }
+
 
     public function graphQlQuery($query){
 
