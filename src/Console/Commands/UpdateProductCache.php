@@ -45,6 +45,7 @@ class UpdateProductCache extends Command
     public function handle()
     {
         Cache::put("ShopifyFreeSamples.product_list", $this->api_service->getAllProducts());
+        Cache::put("ShopifyFreeSamples.excluded_product_list", $this->api_service->getExcludedProducts());
         return 0;
     }
 }
