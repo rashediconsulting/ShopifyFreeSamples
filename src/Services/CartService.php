@@ -89,8 +89,8 @@ class CartService{
 
 	public function addRemoveGraphQlSamples($data = [], $samples = []){
 
-		//\Log::info("Order processing:");
-		//\Log::info("\tId: " . $data["id"]);
+		\Log::info("Order processing:");
+		\Log::info("\tId: " . $data["id"]);
 
 		$order_gid = "gid://shopify/Order/" . $data["id"];
 
@@ -118,7 +118,6 @@ class CartService{
 		  }
 		}
 		QUERY;
-
 		$parsed_response = $this->api_service->graphQlQuery($queryString);
 
 		$remove_samples_calculated_order = $parsed_response?->data?->orderEditBegin?->calculatedOrder?->id;
@@ -164,11 +163,11 @@ class CartService{
 							    }
 							}
 
-			        		\Log::info("Order processing error:");
-			        		\Log::info("\tGid: " . $order_gid);
-			        		\Log::info("\tError removing line item: " . $line_item_gid);
-			        		\Log::info("\tMessages:");
-			        		\Log::info($error_list);
+			        		\Log::info("\tOrder processing error:");
+			        		\Log::info("\t\tGid: " . $order_gid);
+			        		\Log::info("\t\tError removing line item: " . $line_item_gid);
+			        		\Log::info("\t\tMessages:");
+			        		\Log::info("\t\t\t" . $error_list);
 
 						}
 					}
@@ -194,6 +193,7 @@ class CartService{
 			QUERY;
 
 			$remove_response = $this->api_service->graphQlQuery($commit_remove_edits);
+			\Log::info("\tSamples removed using GraphQL: " . $message);
 
 			$queryString = <<<QUERY
 			mutation beginEdit{
@@ -283,7 +283,7 @@ class CartService{
 			QUERY;
 
 			$add_response = $this->api_service->graphQlQuery($commit_edits);
-			//\Log::info("Samples added using GraphQL: " . $samples['message']);
+			\Log::info("\tSamples added using GraphQL: " . $message);
 
 			return true;
 		}else{
