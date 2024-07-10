@@ -129,7 +129,7 @@ class CartService{
 
 					$line_item_gid = $line_item->node->id;
 					$variant = $line_item->node->variant->id;
-					if("gid://shopify/ProductVariant/" . $sample_id == $variant){
+					if("gid://shopify/ProductVariant/" . $sample_id == $variant && $line_item->node->quantity > 0){
 						$remove_sample = <<<QUERY
 						mutation increaseLineItemQuantity {
 						  orderEditSetQuantity(id: "$remove_samples_calculated_order", lineItemId: "$line_item_gid", quantity: 0) {
