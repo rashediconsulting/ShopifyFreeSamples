@@ -5,6 +5,7 @@ namespace RashediConsulting\ShopifyFreeSamples\Http\Controllers;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 
 use RashediConsulting\ShopifyFreeSamples\Services\CartService;
 use RashediConsulting\ShopifyFreeSamples\Models\SFSSet;
@@ -734,21 +735,30 @@ class ShopifyFreeSamplesController extends Controller
                 )
 
         )*/
+        
+        $event_id = $request->header("X-Shopify-Event-Id");
+        \Log::info("Recieved webhook X-Shopify-Event-Id: " . $event_id);
 
-        $data = $request->all();
+        if(!is_null($event_id) && is_null(Cache::get($event_id))){
+            Cache::put($event_id, "Processing " . $event_id, now()->addHours(48));
 
-        //\Log::info("RAW order data");
-        //\Log::info(print_r($data, true));
+            $data = $request->all();
 
-        if(isset($data["line_items"])){
+            //\Log::info("RAW order data");
+            //\Log::info(print_r($data, true));
 
-            $samples = $this->cart_service->manageCartSamples($data);
-            //\Log::info(print_r($samples, true));
-            $result = $this->cart_service->addRemoveGraphQlSamples($data, $samples);
+            if(isset($data["line_items"])){
 
-            return response()->json($result);
+                $samples = $this->cart_service->manageCartSamples($data);
+                //\Log::info(print_r($samples, true));
+                $result = $this->cart_service->addRemoveGraphQlSamples($data, $samples);
+
+                return response()->json($result);
+            }else{
+                return response()->json(["success" => true, "message" => $data]);
+            }
         }else{
-            return response()->json(["success"=>true, "message"=>$data]);
+            return response()->json(["success" => true, "message" => "Duplicated webhook"]);
         }
     }
 }
