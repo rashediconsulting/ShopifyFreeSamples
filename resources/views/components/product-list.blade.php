@@ -6,7 +6,8 @@
         @endforeach
 
     </div>
-    <div class=" items-center bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow" wire:loading.class="wire-loading">
+    <div class=" items-center bg-white rounded mt-3 flex justify-around gap-10 p-5 mb-5 shadow"
+        wire:loading.class="wire-loading">
         <div class="flex gap-3">
             <label class="text-[#6C1131] font-bold" for="name">Name</label>
             <input type="text" wire:model="name" wire:change="saveChanges()" name="name" id="name"
@@ -60,7 +61,7 @@
     </div>
 
     <div class="p-5 bg-white mb-8 shadow">
-        <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Products included</h2>
+        <h2 class="font-bold text-[#6C1131] mb-3 text-xl ">Products included on sample set</h2>
         <div class="table-auto bg-white w-full">
             <div class="grid grid-cols-4">
                 <div class="text-start font-bold">Name</div>
@@ -77,9 +78,9 @@
                         <div>{{ $variant['title'] }}</div>
                         <div><img src="{{ count($product['images']) > 1 ? $product['images'][0]['src'] : '' }}"
                                 alt="" style="height: 50px;"></div>
-                        <div><button class="bg-gray-500 w-[180px] text-white uppercase p-3 text-xs font-bold "
+                        <div><button class="bg-gray-500 w-[200px] text-white uppercase p-3 text-xs font-bold "
                                 wire:click="removeProductFromFreeSample({{ $variant['id'] }})">Remove from
-                                samples</button></div>
+                                sample set</button></div>
                     @endforeach
                 </div>
             @endforeach
@@ -106,8 +107,8 @@
                             <div>{{ $variant['title'] }}</div>
                             <div><img src="{{ count($product['images']) > 1 ? $product['images'][0]['src'] : '' }}"
                                     alt="" style="height: 50px;"></div>
-                            <div><button class="bg-[#6C1131] w-[180px] text-white uppercase p-3 text-xs font-bold "
-                                    wire:click="addProductAsFreeSample({{ $variant['id'] }})">Add to samples</button>
+                            <div><button class="bg-[#6C1131] w-[200px] text-white uppercase p-3 text-xs font-bold "
+                                    wire:click="addProductAsFreeSample({{ $variant['id'] }})">Add to sample set</button>
                             </div>
                         @endforeach
                     </div>
