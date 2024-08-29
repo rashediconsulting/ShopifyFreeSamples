@@ -26,7 +26,7 @@ class ApiService{
 
         $shopify = $this->getApiConnection();
 
-        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 511199215883]); // returns Cursor
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => config('shopifyfreesamples.sample_product_list', 511199215883)]); // returns Cursor
 
         $tmp_products = collect();
 
@@ -47,7 +47,7 @@ class ApiService{
 
         $shopify = $this->getApiConnection();
 
-        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => 512639697163]); // returns Cursor
+        $pages = $shopify->paginateProducts(['limit' => 250, 'collection_id' => config('shopifyfreesamples.excluded_product_list', 512639697163)]); // returns Cursor
 
         $tmp_products = collect();
 

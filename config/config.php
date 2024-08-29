@@ -9,4 +9,7 @@ return [
 	"shopify_store_token" => env("SHOPIFY_STORE_TOKEN", ""),
 	"shopify_api_secret" => env("SHOPIFY_API_SECRET", ""),
 	"shopify_api_version" => env("SHOPIFY_API_VERSION", ""),
+	
+	"sample_product_list" => env("SAMPLE_PRODUCT_LIST", ""),
+	"excluded_product_list" => env("EXCLUDED_PRODUCT_LIST", ""),
 ];
