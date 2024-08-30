@@ -10,7 +10,7 @@
         </div>
         <div class="w-[90%] items-end flex flex-col">
             <button type="button"
-                class="bg-[#6C1131] hover:shadow-lg w-[200px] text-white uppercase p-3 text-xs font-bold"
+                class="bg-[#6C1131] hover:shadow-lg w-[150px] text-white uppercase p-3 text-xs font-bold"
                 wire:click="createSampleSet()">Create new set</button>
         </div>
         <div class="p-5 w-[90%] bg-white mb-8 shadow-lg flex flex-col items-center justify-center">
