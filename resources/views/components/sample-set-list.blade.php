@@ -14,7 +14,7 @@
                 wire:click="createSampleSet()">Create new set</button>
         </div>
         <div class="p-5 w-[80%] bg-white mb-8 shadow-lg flex flex-col items-center justify-center">
-            <div class="table-auto ml-8 mt-10 flex flex-col w-full items-center bg-white">
+            <div class="flex flex-col items-center w-full px-10 mt-10 bg-white table-auto">
                 <div class="grid grid-samples mt-3 w-full gap-4">
                     <div class="text-start text-[#6C1131] font-bold">Name</div>
                     <div class="text-start text-[#6C1131] font-bold">Rules</div>
@@ -22,7 +22,7 @@
                     <div class="text-start text-[#6C1131] font-bold">Actions</div>
                 </div>
                 @foreach ($sample_set_list as $sample_set)
-                    <div class="grid w-full gap-4 py-5 mb-5 border-b border-gray-300 gap-y-2 grid-samples">
+                    <div class="grid w-full gap-4 py-5 mb-5 gap-y-2 grid-sampless">
                         <div>
                             <div>{{ $sample_set->name }}</div>
                         </div>
