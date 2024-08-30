@@ -22,7 +22,7 @@
                     <div class="text-start text-[#6C1131] font-bold">Actions</div>
                 </div>
                 @foreach ($sample_set_list as $sample_set)
-                    <div class="grid w-full gap-4 py-5 mb-5 gap-y-2 grid-sampless">
+                    <div class="grid w-full gap-4 py-5 mb-5 gap-y-2 grid-samples border-b border-gray-300">
                         <div>
                             <div>{{ $sample_set->name }}</div>
                         </div>
