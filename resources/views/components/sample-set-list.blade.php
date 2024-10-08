@@ -4,27 +4,27 @@
             <p>{{ $m }}</p>
         @endforeach
     </div>
-    <div class="items-center bg-white rounded mt-3 flex flex-col justify-center gap-10 p-5 mb-5 shadow">
-        <div class="flex flex-col justify-end items-end mt-10">
-            <h2 class="font-bold text-[#6C1131] mb-3 text-4xl">Sample sets</h2>
+    <div class="flex flex-col items-center justify-center gap-10 p-5 mt-3 mb-5 bg-white rounded-lg shadow">
+        <div class="flex flex-col items-end justify-end mt-10">
+            <h2 class="font-extrabold text-[#6C1131] mb-3 text-4xl">Sample sets</h2>
         </div>
         <div class="w-[90%] items-end flex flex-col">
             <button type="button"
-                class="bg-[#6C1131] hover:shadow-lg w-[150px] text-white uppercase p-3 text-xs font-bold"
+                class="bg-[#6C1131] rounded-full shadow hover:shadow-lg w-[150px] text-white uppercase p-3 text-xs font-bold"
                 wire:click="createSampleSet()">Create new set</button>
         </div>
-        <div class="p-5 w-[90%] bg-white mb-8 shadow-lg flex flex-col items-center justify-center">
-            <div class="flex flex-col items-center w-full px-10 mt-10 bg-white table-auto">
-                <div class="grid grid-samples mt-3 w-full gap-4">
-                    <div class="text-start text-[#6C1131] font-bold">Name</div>
-                    <div class="text-start text-[#6C1131] font-bold">Rules</div>
-                    <div class="text-start text-[#6C1131] font-bold">Active</div>
-                    <div class="text-start text-[#6C1131] font-bold">Actions</div>
+        <div class="p-5 w-[90%] bg-[#F0F0F0] rounded-xl mb-8 shadow-lg flex flex-col items-center justify-center">
+            <div class="flex flex-col  items-center w-full px-10 mt-10 py-3 bg-[#F0F0F0]  table-auto">
+                <div class="grid border border-gray-200 rounded-t-lg w-full gap-4 px-3 py-3 mt-3 bg-[#d6d6d6] grid-samples">
+                    <div class="font-bold text-start">Name</div>
+                    <div class="font-bold text-start">Rules</div>
+                    <div class="font-bold text-start">Active</div>
+                    <div class="font-bold text-start">Actions</div>
                 </div>
                 @foreach ($sample_set_list as $sample_set)
-                    <div class="grid w-full gap-4 py-5 mb-5 gap-y-2 grid-samples border-b border-gray-300">
+                    <div class="grid border last:rounded-b-lg items-center border-gray-200 px-3 w-full gap-4 bg-[#f5f5f5] py-5 grid-samples">
                         <div>
-                            <div>{{ $sample_set->name }}</div>
+                            <div class="font-bold">{{ $sample_set->name }}</div>
                         </div>
                         <div class="w-full">
                             @if ($sample_set->rules->isEmpty())
@@ -35,7 +35,7 @@
                                 @endforeach
                             @endif
                         </div>
-                        <div class="text-start font-bold">
+                        <div class="font-bold text-start">
                             @if ($sample_set->active)
                                 <span><svg class="w-4" fill="green" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512">
@@ -52,25 +52,25 @@
                         </div>
                         <div class="flex gap-4">
                             <button type="button"
-                                class="bg-[#6C1131] max-h-[40px] text-white uppercase p-3 text-xs font-bold"
-                                wire:click="editSampleSet({{ $sample_set->id }})">Edit set</button>
+                                class="bg-[#6C1131] shadow max-h-[40px] rounded-full text-white uppercase p-3 px-5 text-xs font-bold"
+                                wire:click="editSampleSet({{ $sample_set->id }})"><i class="fas fa-pencil-alt"></i>Edit set</button>
                             <button type="button"
-                                class="bg-red-600 text-white max-h-[40px] uppercase p-3 text-xs font-bold" x-data
+                                class="bg-red-600 shadow text-white rounded-full max-h-[40px] uppercase p-3  px-5 text-xs font-bold" x-data
                                 @click="$dispatch('open-delete-modal', {{ $sample_set->id }})">Delete set</button>
                         </div>
                         <div x-data="{ open: false, sampleSetId: null }"
                             @open-delete-modal.window="open = true; sampleSetId = $event.detail;">
                             <div x-show="open"
-                                class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-                                <div class="bg-white p-8 rounded shadow-lg w-1/3">
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
+                                <div class="w-1/3 p-8 bg-white rounded shadow-lg">
                                     <h2 class="text-2xl font-bold text-[#6C1131] mb-4">Confirm Deletion</h2>
                                     <p class="mb-6">Are you sure you want to delete this sample set?</p>
                                     <div class="flex justify-end gap-4">
                                         <button type="button"
-                                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                                            class="px-4 py-2 font-bold text-gray-800 bg-gray-300 rounded hover:bg-gray-400"
                                             @click="open = false">Cancel</button>
                                         <button type="button"
-                                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                            class="px-4 py-2 font-bold text-white bg-red-600 rounded hover:bg-red-700"
                                             wire:click="deleteSampleSet({{ $sample_set->id }}); open = false">Delete</button>
                                     </div>
                                 </div>
